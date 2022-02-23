@@ -19,10 +19,12 @@
 
         <activity
             android:name=".PointsOfInterestActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Points of Interest" />
         <activity
             android:name=".SettingsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Settings" />
         <activity
             android:name=".LeaderboardsActivity"
             android:exported="false"
