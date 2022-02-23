@@ -1,5 +1,6 @@
 package com.example.atkex
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+
 
 class points_of_interest_adapter (private val imageModelArrayList: MutableList<points_of_interest_model>) : RecyclerView.Adapter<points_of_interest_adapter.ViewHolder>() {
     /*
@@ -56,6 +58,12 @@ class points_of_interest_adapter (private val imageModelArrayList: MutableList<p
                 txtTitle.text.toString()
             val snackbar = Snackbar.make(v, mess, Snackbar.LENGTH_LONG)
             snackbar.show()
+
+            /** Intent of which poi to go to */
+            val intent = Intent(v.getContext(), PointOfInterestActivity::class.java)
+            intent.putExtra("name", txtTitle.text)
+            intent.putExtra("distance", txtDistance.text)
+            v.getContext().startActivity(intent)
         }
     }
 }
