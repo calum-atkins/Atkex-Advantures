@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickPointsOfInterest(view: View) {
-        val newIntent = Intent(this, SettingsActivity::class.java)
+        val newIntent = Intent(this, PointsOfInterestActivity::class.java)
         startActivity(newIntent)
     }
 }

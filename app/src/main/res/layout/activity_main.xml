@@ -51,10 +51,13 @@
 
     <Button
         android:id="@+id/btn_pointsofinterest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:onClick="onClickPointsOfInterest"
-        android:text="POI List"
+        android:scaleX="4"
+        android:scaleY="4"
+        app:icon="@drawable/ic_baseline_keyboard_arrow_up_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

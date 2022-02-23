@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Atkex</string>
+
+
+    <string name="mumbles_pier">Mumbles Pier</string>
+    <string name="gower_peninsula">Gower Peninsula</string>
 </resources>
