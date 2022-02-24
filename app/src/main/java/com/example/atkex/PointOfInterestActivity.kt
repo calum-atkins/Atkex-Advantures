@@ -21,6 +21,14 @@ class PointOfInterestActivity : AppCompatActivity() {
             distance = extras.getString("distance") as String
         }
 
+        //actionbar
+        val actionbar = supportActionBar
+        //set actionbar title
+        actionbar!!.title = name
+        //set back button
+        actionbar.setDisplayHomeAsUpEnabled(true)
+        actionbar.setDisplayHomeAsUpEnabled(true)
+
         val imageView = findViewById<ImageView>(R.id.imageView)
         val textViewName = findViewById<TextView>(R.id.text_view_name)
         val textViewDistance = findViewById<TextView>(R.id.text_view_distance)
@@ -30,5 +38,10 @@ class PointOfInterestActivity : AppCompatActivity() {
         var bitmap: Bitmap? = intent.getParcelableExtra("BitmapImage") as Bitmap?
         imageView.setImageBitmap(bitmap)
 
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

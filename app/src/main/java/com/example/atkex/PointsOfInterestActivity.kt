@@ -11,6 +11,14 @@ class PointsOfInterestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_points_of_interest)
 
+        //actionbar
+        val actionbar = supportActionBar
+        //set actionbar title
+        actionbar!!.title = "Points Of Interest List"
+        //set back button
+        actionbar.setDisplayHomeAsUpEnabled(true)
+        actionbar.setDisplayHomeAsUpEnabled(true)
+
         val imageModelArrayList = populateList()
 
         val recyclerView = findViewById<View>(R.id.recycler_view_list_poi) as RecyclerView
@@ -41,5 +49,11 @@ class PointsOfInterestActivity : AppCompatActivity() {
 //    Sorting alphabetically
         list.sortBy { list -> list.modelName }
         return list
+    }
+
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }
