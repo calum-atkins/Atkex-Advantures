@@ -1,9 +1,11 @@
 package com.example.atkex
 
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+
 
 class PointOfInterestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,9 +16,7 @@ class PointOfInterestActivity : AppCompatActivity() {
         var name = ""
         var distance = ""
 
-        if (extras == null) {
-            name = "No extras found"
-        } else {
+        if (extras != null) {
             name = extras.getString("name") as String
             distance = extras.getString("distance") as String
         }
@@ -26,7 +26,9 @@ class PointOfInterestActivity : AppCompatActivity() {
         val textViewDistance = findViewById<TextView>(R.id.text_view_distance)
 
         textViewName.text = name
-        textViewDistance.text = distance
+        textViewDistance.text = distance + " km's away"
+        var bitmap: Bitmap? = intent.getParcelableExtra("BitmapImage") as Bitmap?
+        imageView.setImageBitmap(bitmap)
 
     }
 }

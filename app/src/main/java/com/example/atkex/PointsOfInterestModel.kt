@@ -1,9 +1,10 @@
 package com.example.atkex
 
-class points_of_interest_model {
+class PointsOfInterestModel {
     var modelName: String? = null
     var distance: Int? = 0
     private var modelImage: Int = 0
+
 
     /** Return the name of the landmark */
     fun getNames(): String {

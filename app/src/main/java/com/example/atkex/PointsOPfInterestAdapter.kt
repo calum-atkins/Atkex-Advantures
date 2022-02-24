@@ -1,6 +1,7 @@
 package com.example.atkex
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 
 
-class points_of_interest_adapter (private val imageModelArrayList: MutableList<points_of_interest_model>) : RecyclerView.Adapter<points_of_interest_adapter.ViewHolder>() {
+class PointsOPfInterestAdapter (private val imageModelArrayList: MutableList<PointsOfInterestModel>) : RecyclerView.Adapter<PointsOPfInterestAdapter.ViewHolder>() {
     /*
      * Inflate our views using the layout defined in row_layout.xml
      */
@@ -29,7 +30,7 @@ class points_of_interest_adapter (private val imageModelArrayList: MutableList<p
 
         holder.imgView.setImageResource(info.getImages())
         holder.txtTitle.text = info.getNames()
-        holder.txtDistance.text = info.getDistances()
+        holder.txtDistance.text = info.getDistances() + " km's"
     }
 
     /*
@@ -63,6 +64,12 @@ class points_of_interest_adapter (private val imageModelArrayList: MutableList<p
             val intent = Intent(v.getContext(), PointOfInterestActivity::class.java)
             intent.putExtra("name", txtTitle.text)
             intent.putExtra("distance", txtDistance.text)
+            //intent.putExtra("image", )
+
+            imgView.buildDrawingCache()
+            val bitmap: Bitmap = imgView.getDrawingCache()
+            intent.putExtra("BitmapImage", bitmap)
+
             v.getContext().startActivity(intent)
         }
     }

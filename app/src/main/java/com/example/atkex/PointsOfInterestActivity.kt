@@ -17,12 +17,12 @@ class PointsOfInterestActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        val adapter = points_of_interest_adapter(imageModelArrayList)
+        val adapter = PointsOPfInterestAdapter(imageModelArrayList)
         recyclerView.adapter = adapter
     }
 
-    private fun populateList(): ArrayList<points_of_interest_model> {
-        val list = ArrayList<points_of_interest_model>()
+    private fun populateList(): ArrayList<PointsOfInterestModel> {
+        val list = ArrayList<PointsOfInterestModel>()
 //        Nasty handcoded array of images
         val myImageList = arrayOf(R.drawable.gower_peninsula, R.drawable.mumbles_pier)
 
@@ -32,7 +32,7 @@ class PointsOfInterestActivity : AppCompatActivity() {
 
 //    Wrapping up an image and a name in the model class
         for (i in 0..1) {
-            val imageModel = points_of_interest_model()
+            val imageModel = PointsOfInterestModel()
             imageModel.setNames(getString(myImageNameList[i]))
             imageModel.setDistances(distancesList[i])
             imageModel.setImages(myImageList[i])
