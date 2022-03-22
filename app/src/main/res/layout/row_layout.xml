@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:padding="6dp"> <!-- modify -->
+    android:padding="6dp">
 
     <ImageView
         android:id="@+id/image"

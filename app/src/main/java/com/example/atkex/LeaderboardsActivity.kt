@@ -11,16 +11,14 @@ class LeaderboardsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_leaderboards)
 
-        //actionbar
+        /** Action bar and settings */
         val actionbar = supportActionBar
-        //set actionbar title
         actionbar!!.title = "Leaderboards"
-        //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
         actionbar.setDisplayHomeAsUpEnabled(true)
 
+        /** Initialise list and populate */
         val imageModelArrayList = populateList()
-
         val recyclerView = findViewById<View>(R.id.recycler_view_list_leaderboards) as RecyclerView
 
         val layoutManager = LinearLayoutManager(this)
@@ -29,21 +27,21 @@ class LeaderboardsActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
     }
 
+    /**
+     * Function created to fill the list with data
+     */
     private fun populateList(): ArrayList<LeaderboardsModel> {
         val list = ArrayList<LeaderboardsModel>()
-//        Nasty handcoded array of images
+
         val namesList = arrayOf("James", "Steph")
         val pointsList = arrayOf(5, 9)
-//    ditto but of names (at least the strings are externalised)
 
-//    Wrapping up an image and a name in the model class
         for (i in 0..1) {
             val imageModel = LeaderboardsModel()
             imageModel.setNames(namesList[i])
             imageModel.setPoints(pointsList[i])
             list.add(imageModel)
         }
-//    Sorting alphabetically
         list.sortBy { list -> list.name }
         return list
     }

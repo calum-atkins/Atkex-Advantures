@@ -34,7 +34,7 @@ class PointOfInterestActivity : AppCompatActivity() {
         val textViewDistance = findViewById<TextView>(R.id.text_view_distance)
 
         textViewName.text = name
-        textViewDistance.text = distance + " km's away"
+        textViewDistance.text = distance + " away"
         var bitmap: Bitmap? = intent.getParcelableExtra("BitmapImage") as Bitmap?
         imageView.setImageBitmap(bitmap)
 

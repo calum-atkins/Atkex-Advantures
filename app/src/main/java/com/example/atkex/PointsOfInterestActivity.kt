@@ -11,11 +11,8 @@ class PointsOfInterestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_points_of_interest)
 
-        //actionbar
         val actionbar = supportActionBar
-        //set actionbar title
         actionbar!!.title = "Points Of Interest List"
-        //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
         actionbar.setDisplayHomeAsUpEnabled(true)
 
@@ -31,14 +28,11 @@ class PointsOfInterestActivity : AppCompatActivity() {
 
     private fun populateList(): ArrayList<PointsOfInterestModel> {
         val list = ArrayList<PointsOfInterestModel>()
-//        Nasty handcoded array of images
         val myImageList = arrayOf(R.drawable.gower_peninsula, R.drawable.mumbles_pier)
 
         val distancesList = arrayOf(5, 9)
-//    ditto but of names (at least the strings are externalised)
         val myImageNameList = arrayOf(R.string.gower_peninsula, R.string.mumbles_pier)
 
-//    Wrapping up an image and a name in the model class
         for (i in 0..1) {
             val imageModel = PointsOfInterestModel()
             imageModel.setNames(getString(myImageNameList[i]))
@@ -46,7 +40,6 @@ class PointsOfInterestActivity : AppCompatActivity() {
             imageModel.setImages(myImageList[i])
             list.add(imageModel)
         }
-//    Sorting alphabetically
         list.sortBy { list -> list.modelName }
         return list
     }
