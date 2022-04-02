@@ -9,12 +9,12 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         //actionbar
-        val actionbar = supportActionBar
-        //set actionbar title
-        actionbar!!.title = "Settings"
-        //set back button
-        actionbar.setDisplayHomeAsUpEnabled(true)
-        actionbar.setDisplayHomeAsUpEnabled(true)
+//        val actionbar = supportActionBar
+//        //set actionbar title
+//        actionbar!!.title = "Settings"
+//        //set back button
+//        actionbar.setDisplayHomeAsUpEnabled(true)
+//        actionbar.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -13,12 +13,15 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.hardware.camera2.CameraAccessException
 import android.location.Location
+import android.view.Menu
+import android.view.MenuItem
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -37,11 +40,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         setContentView(R.layout.activity_main)
 
         //Custom image for action bar
-        supportActionBar?.apply {
-            setDisplayShowHomeEnabled(true)
-            setDisplayUseLogoEnabled(true)
-            setLogo(R.drawable.atkex_logo_dark)
-        }
+//        supportActionBar?.apply {
+//            setDisplayShowHomeEnabled(true)
+//            setDisplayUseLogoEnabled(true)
+//            setLogo(R.drawable.atkex_logo_dark)
+//        }
+
+        val newToolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.main_toolbar)
+        setSupportActionBar(newToolbar)
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -49,6 +55,41 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         //Initialise location
         client = LocationServices.getFusedLocationProviderClient(this)
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_layout, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val myView = findViewById<View>(R.id.main_toolbar)
+
+        when (item.itemId) {
+            R.id.POI_list_but -> {
+                val newIntent = Intent(this, PointsOfInterestActivity::class.java)
+                startActivity(newIntent)
+                return true
+            }
+            R.id.leaderboards_but -> {
+                val newIntent = Intent(this, LeaderboardsActivity::class.java)
+                startActivity(newIntent)
+                return true
+            }
+            R.id.settings_but -> {
+                val newIntent = Intent(this, SettingsActivity::class.java)
+                startActivity(newIntent)
+                return true
+            }
+            R.id.POI_list_but -> {
+                val sb = Snackbar.make(myView, "Test",Snackbar.LENGTH_LONG)
+                sb.show()
+                return true
+            }
+        }
+
+
+        return super.onOptionsItemSelected(item)
     }
 
      override fun onMapReady(_googleMap: GoogleMap) {

@@ -11,10 +11,10 @@ class PointsOfInterestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_points_of_interest)
 
-        val actionbar = supportActionBar
-        actionbar!!.title = "Points Of Interest List"
-        actionbar.setDisplayHomeAsUpEnabled(true)
-        actionbar.setDisplayHomeAsUpEnabled(true)
+//        val actionbar = supportActionBar
+//        actionbar!!.title = "Points Of Interest List"
+//        actionbar.setDisplayHomeAsUpEnabled(true)
+//        actionbar.setDisplayHomeAsUpEnabled(true)
 
         val imageModelArrayList = populateList()
 
@@ -25,6 +25,8 @@ class PointsOfInterestActivity : AppCompatActivity() {
         val adapter = PointsOPfInterestAdapter(imageModelArrayList)
         recyclerView.adapter = adapter
     }
+
+
 
     private fun populateList(): ArrayList<PointsOfInterestModel> {
         val list = ArrayList<PointsOfInterestModel>()
@@ -49,4 +51,6 @@ class PointsOfInterestActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
+
+
 }

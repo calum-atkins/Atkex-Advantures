@@ -12,10 +12,10 @@ class LeaderboardsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_leaderboards)
 
         /** Action bar and settings */
-        val actionbar = supportActionBar
-        actionbar!!.title = "Leaderboards"
-        actionbar.setDisplayHomeAsUpEnabled(true)
-        actionbar.setDisplayHomeAsUpEnabled(true)
+//        val actionbar = supportActionBar
+//        actionbar!!.title = "Leaderboards"
+//        actionbar.setDisplayHomeAsUpEnabled(true)
+//        actionbar.setDisplayHomeAsUpEnabled(true)
 
         /** Initialise list and populate */
         val imageModelArrayList = populateList()

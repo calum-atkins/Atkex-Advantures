@@ -5,53 +5,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <fragment
+
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/grey_200"
+        app:title="Atkex"
+        app:layout_constraintBottom_toTopOf="@id/map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@android:color/black"></com.google.android.material.appbar.MaterialToolbar>
+<!--    <Button-->
+<!--        android:id="@+id/btn_leaderborad"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:scaleX="2"-->
+<!--        android:scaleY="2"-->
+<!--        android:background="?android:attr/selectableItemBackgroundBorderless"-->
+<!--        android:onClick="onClickLeaderboards"-->
+<!--        app:iconTint="#696969"-->
+<!--        app:icon="@drawable/ic_baseline_leaderboard_24"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/main_toolbar" />-->
+    <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        tools:context=".MapsActivity"/>
-    <Button
-        android:id="@+id/btn_leaderborad"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:scaleX="2"
-        android:scaleY="2"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:onClick="onClickLeaderboards"
-        app:iconTint="#696969"
-        app:icon="@drawable/ic_baseline_leaderboard_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <Button
-        android:id="@+id/btn_settings"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:onClick="onClickSettings"
-        android:padding="10dp"
-        android:scaleX="2"
-        android:scaleY="2"
-        app:icon="@drawable/ic_baseline_settings_24"
-        app:iconTint="#696969"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="#696969" />
-
-
-    <Button
-        android:id="@+id/btn_pointsofinterest"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="16dp"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:onClick="onClickPointsOfInterest"
-        android:scaleX="4"
-        android:scaleY="4"
-        app:iconTint="#696969"
-        app:icon="@drawable/ic_baseline_keyboard_arrow_up_24"
+        android:layout_width="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/main_toolbar"
+        tools:context=".MapsActivity"
+        android:layout_height="0dp"/>
+
+<!--    <Button-->
+<!--        android:id="@+id/btn_settings"-->
+<!--        style="@style/Widget.AppCompat.Button"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="?android:attr/selectableItemBackgroundBorderless"-->
+<!--        android:onClick="onClickSettings"-->
+<!--        android:padding="10dp"-->
+<!--        android:scaleX="2"-->
+<!--        android:scaleY="2"-->
+<!--        app:icon="@drawable/ic_baseline_settings_24"-->
+<!--        app:iconTint="#696969"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:rippleColor="#696969" />-->
+
+
+<!--    <Button-->
+<!--        android:id="@+id/btn_pointsofinterest"-->
+<!--        android:layout_width="60dp"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:background="?android:attr/selectableItemBackgroundBorderless"-->
+<!--        android:onClick="onClickPointsOfInterest"-->
+<!--        android:scaleX="4"-->
+<!--        android:scaleY="4"-->
+<!--        app:iconTint="#696969"-->
+<!--        app:icon="@drawable/ic_baseline_keyboard_arrow_up_24"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <item
+        android:id="@+id/POI_list_but"
+        android:icon="@android:drawable/ic_popup_sync"
+        android:title="POI List">
+        ></item>
+    <item
+        android:id="@+id/leaderboards_but"
+        android:icon="@android:drawable/ic_popup_sync"
+        android:title="Leaderboards">
+        ></item>
+    <item
+        android:id="@+id/settings_but"
+        android:title="Settings"></item>
+    <item
+        android:id="@+id/action_logout"
+        android:title="Logout">
+    </item>
+
+
+</menu>
