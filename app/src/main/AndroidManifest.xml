@@ -15,9 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Atkex">
         <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".PointOfInterestActivity"
             android:exported="false" />
-            android:label="Name"/>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />
