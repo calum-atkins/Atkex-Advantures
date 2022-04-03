@@ -17,7 +17,7 @@
         android:id="@+id/settings_but"
         android:title="Settings"></item>
     <item
-        android:id="@+id/action_logout"
+        android:id="@+id/logout_but"
         android:title="Logout">
     </item>
 

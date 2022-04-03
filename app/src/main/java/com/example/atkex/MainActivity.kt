@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var googleMap : GoogleMap
     private lateinit var client : FusedLocationProviderClient
     private lateinit var lastLocation : Location
+    private lateinit var userName : String
 
     companion object{
         private const val LOCATION_REQUEST_CODE = 1
@@ -38,6 +39,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+//
+//        val extras = intent.extras
+//
+//        if (extras != null) {
+//            userName = extras.getString("name") as String
+//        }
 
         //Custom image for action bar
 //        supportActionBar?.apply {
@@ -81,9 +88,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 startActivity(newIntent)
                 return true
             }
-            R.id.POI_list_but -> {
-                val sb = Snackbar.make(myView, "Test",Snackbar.LENGTH_LONG)
-                sb.show()
+            R.id.logout_but -> {
+                val newIntent = Intent(this, LoginActivity::class.java)
+                startActivity(newIntent)
                 return true
             }
         }
