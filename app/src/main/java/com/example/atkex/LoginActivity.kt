@@ -33,6 +33,11 @@ class LoginActivity : AppCompatActivity() {
         passwordText = findViewById(R.id.passwordInput)
         loginBtn = findViewById(R.id.btn_login)
         registerBtn = findViewById(R.id.btn_register)
+
+        if (mAuth.currentUser != null) {
+            val newIntent = Intent(this, MainActivity::class.java)
+            startActivity(newIntent)
+        }
     }
 
     override fun onStart() {

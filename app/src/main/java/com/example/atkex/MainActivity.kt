@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var lastLocation : Location
     private lateinit var userName : String
 
+
     companion object{
         private const val LOCATION_REQUEST_CODE = 1
     }

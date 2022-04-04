@@ -2,6 +2,7 @@ package com.example.atkex
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,11 +12,19 @@ class LeaderboardsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_leaderboards)
 
-        /** Action bar and settings */
-//        val actionbar = supportActionBar
-//        actionbar!!.title = "Leaderboards"
+        //        actionbar!!.title = "Leaderboards"
 //        actionbar.setDisplayHomeAsUpEnabled(true)
 //        actionbar.setDisplayHomeAsUpEnabled(true)
+
+        val newToolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.main_toolbar)
+        setSupportActionBar(newToolbar)
+
+        supportActionBar?.apply {
+            setDisplayShowHomeEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+        }
+
+        //supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         /** Initialise list and populate */
         val imageModelArrayList = populateList()
@@ -26,6 +35,7 @@ class LeaderboardsActivity : AppCompatActivity() {
         val adapter = LeaderboardsAdapter(imageModelArrayList)
         recyclerView.adapter = adapter
     }
+
 
     /**
      * Function created to fill the list with data
