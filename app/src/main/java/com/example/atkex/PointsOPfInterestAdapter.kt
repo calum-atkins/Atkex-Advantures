@@ -64,6 +64,17 @@ class PointsOPfInterestAdapter (private val imageModelArrayList: MutableList<Poi
             val intent = Intent(v.getContext(), PointOfInterestActivity::class.java)
             intent.putExtra("name", txtTitle.text)
             intent.putExtra("distance", txtDistance.text)
+
+
+            for (item in imageModelArrayList) {
+                if (item.name == txtTitle.text) {
+                    //ADD PASSING INFORMATION HERE
+                    intent.putExtra("info", item.info)
+                    intent.putExtra("lat", item.lat)
+                    intent.putExtra("long", item.long)
+                }
+
+            }
             //intent.putExtra("image", )
 
             imgView.buildDrawingCache()
