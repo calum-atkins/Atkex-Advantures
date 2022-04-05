@@ -1,20 +1,30 @@
 package com.example.atkex
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
+import java.io.File
 
 
-class PointsOPfInterestAdapter (private val imageModelArrayList: MutableList<PointsOfInterestModel>) : RecyclerView.Adapter<PointsOPfInterestAdapter.ViewHolder>() {
+class PointsOPfInterestAdapter ( private val context: Context, private val imageModelArrayList: MutableList<PointsOfInterestModel>) : RecyclerView.Adapter<PointsOPfInterestAdapter.ViewHolder>() {
     /*
      * Inflate our views using the layout defined in row_layout.xml
      */
+    private val storageRef = Firebase.storage.getReferenceFromUrl("gs://atkex-project.appspot.com")
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val v = inflater.inflate(R.layout.row_layout, parent, false)
@@ -28,7 +38,14 @@ class PointsOPfInterestAdapter (private val imageModelArrayList: MutableList<Poi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val info = imageModelArrayList[position]
 
-        holder.imgView.setImageResource(info.getImages())
+        val storageReference = storageRef.child("images/" + info.getImages())
+
+        storageReference.downloadUrl.addOnSuccessListener {
+            Glide.with(this.context)
+                .load(it)
+                .into(holder.imgView)
+        }
+
         holder.txtTitle.text = info.getNames()
         holder.txtDistance.text = info.getDistances() + " km's"
     }

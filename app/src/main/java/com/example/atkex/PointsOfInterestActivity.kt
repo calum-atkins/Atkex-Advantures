@@ -35,7 +35,7 @@ class PointsOfInterestActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
 
         poiArrayList = arrayListOf()
-        myAdapter = PointsOPfInterestAdapter(poiArrayList)
+        myAdapter = PointsOPfInterestAdapter(this@PointsOfInterestActivity, poiArrayList)
         recyclerView.adapter = myAdapter
 
         EventChangeListener()

@@ -6,7 +6,7 @@ class PointsOfInterestModel {
     var long: String? = null
     var lat: String? = null
     var distance: Int? = 0
-    private var modelImage: Int = 0
+    var img: String? = null
 
 
     /** Return the name of the landmark */
@@ -40,12 +40,12 @@ class PointsOfInterestModel {
     }
 
     /** Return the image of the landmark */
-    fun getImages(): Int {
-        return modelImage
+    fun getImages(): String {
+        return img.toString()
     }
 
     /** Set the image of the landmark */
-    fun setImages(image_drawable: Int) {
-        this.modelImage = image_drawable
+    fun setImages(image: String) {
+        this.img = image
     }
 }
