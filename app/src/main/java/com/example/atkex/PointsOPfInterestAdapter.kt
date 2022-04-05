@@ -25,6 +25,7 @@ class PointsOPfInterestAdapter ( private val context: Context, private val image
      */
     private val storageRef = Firebase.storage.getReferenceFromUrl("gs://atkex-project.appspot.com")
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val v = inflater.inflate(R.layout.row_layout, parent, false)

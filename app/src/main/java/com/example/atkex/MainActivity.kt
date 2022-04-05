@@ -13,6 +13,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.hardware.camera2.CameraAccessException
 import android.location.Location
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.app.ActivityCompat
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.*
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -32,6 +34,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var lastLocation : Location
     private lateinit var userName : String
 
+    private lateinit var db : FirebaseFirestore
+
 
     companion object{
         private const val LOCATION_REQUEST_CODE = 1
@@ -40,19 +44,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//
-//        val extras = intent.extras
-//
-//        if (extras != null) {
-//            userName = extras.getString("name") as String
-//        }
-
-        //Custom image for action bar
-//        supportActionBar?.apply {
-//            setDisplayShowHomeEnabled(true)
-//            setDisplayUseLogoEnabled(true)
-//            setLogo(R.drawable.atkex_logo_dark)
-//        }
 
         val newToolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.main_toolbar)
         setSupportActionBar(newToolbar)
@@ -120,15 +111,37 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             if (location != null) {
                 lastLocation = location
                 val currentLatLong = LatLng(location.latitude, location.longitude)
-                placeMarkerOnMap(currentLatLong)
+                //placeMarkerOnMap(currentLatLong, "You are here")
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 12f))
+                addMarkers()
             }
         }
     }
 
-    private fun placeMarkerOnMap(currentLatLong: LatLng) {
+    private fun addMarkers() {
+        db = FirebaseFirestore.getInstance()
+        db.collection("points_of_interests")//.orderBy("distance", Query.Direction.ASCENDING)
+            .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                    if (error != null) {
+                        Log.e("Firebase error", error.message.toString())
+                        return
+                    }
+                    for (dc : DocumentChange in value?.documentChanges!!){
+                        if (dc.type == DocumentChange.Type.ADDED) {
+                            val latLong = LatLng(dc.document.toObject(PointsOfInterestModel::class.java).lat.toString().toDouble(),
+                                dc.document.toObject(PointsOfInterestModel::class.java).long.toString().toDouble())
+                            placeMarkerOnMap(latLong, dc.document.toObject(PointsOfInterestModel::class.java).name.toString())
+
+                        }
+                    }
+                }
+            })
+    }
+
+    private fun placeMarkerOnMap(currentLatLong: LatLng, name: String) {
         val markerOptions = MarkerOptions().position(currentLatLong)
-        markerOptions.title("$currentLatLong")
+        markerOptions.title("$name")
         googleMap.addMarker(markerOptions)
     }
 

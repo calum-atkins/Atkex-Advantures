@@ -21,15 +21,6 @@ class PointsOfInterestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_points_of_interest)
 
 
-//        val imageModelArrayList = populateList()
-//
-//        val recyclerView = findViewById<View>(R.id.recycler_view_list_poi) as RecyclerView
-//
-//        val layoutManager = LinearLayoutManager(this)
-//        recyclerView.layoutManager = layoutManager
-//        val adapter = PointsOPfInterestAdapter(imageModelArrayList)
-//        recyclerView.adapter = adapter
-
         recyclerView = findViewById(R.id.recycler_view_list_poi)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
