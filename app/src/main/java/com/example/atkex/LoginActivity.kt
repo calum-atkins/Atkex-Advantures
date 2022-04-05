@@ -11,7 +11,7 @@ import android.widget.EditText
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginActivity : AppCompatActivity() {
 
@@ -22,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
 
     lateinit var emailText : EditText
     lateinit var passwordText : EditText
+    lateinit var usernameText : EditText
     lateinit var registerBtn : Button
     lateinit var loginBtn : Button
 
@@ -29,15 +30,16 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        emailText = findViewById(R.id.usernameInput)
+        emailText = findViewById(R.id.emailInput)
         passwordText = findViewById(R.id.passwordInput)
+        usernameText = findViewById(R.id.nameInput)
         loginBtn = findViewById(R.id.btn_login)
         registerBtn = findViewById(R.id.btn_register)
 
-        if (mAuth.currentUser != null) {
-            val newIntent = Intent(this, MainActivity::class.java)
-            startActivity(newIntent)
-        }
+//        if (mAuth.currentUser != null) {
+//            val newIntent = Intent(this, MainActivity::class.java)
+//            startActivity(newIntent)
+//        }
     }
 
     override fun onStart() {
@@ -60,6 +62,7 @@ class LoginActivity : AppCompatActivity() {
             )
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+
                     update()
                     closeKeyBoard()
                     val newIntent = Intent(this, MainActivity::class.java)
@@ -91,6 +94,7 @@ class LoginActivity : AppCompatActivity() {
             )
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
+                        saveFireStore(usernameText.text.toString(), emailText.text.toString())
                         update()
                         closeKeyBoard()
                         val newIntent = Intent(this, MainActivity::class.java)
@@ -102,6 +106,18 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
         }
+    }
+
+    fun saveFireStore(name: String, email: String) {
+        val db = FirebaseFirestore.getInstance()
+        val user: MutableMap<String, Any> = HashMap()
+        user["name"] = name
+        user["email"] = email
+        user["points"] = 0
+
+        db.collection("users")
+            .add(user)
+
     }
 
     private fun displayMessage(view: View, msgTxt : String) {

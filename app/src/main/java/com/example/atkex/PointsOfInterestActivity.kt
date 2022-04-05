@@ -67,23 +67,4 @@ class PointsOfInterestActivity : AppCompatActivity() {
             })
     }
 
-
-//    private fun populateList(): ArrayList<PointsOfInterestModel> {
-//        val list = ArrayList<PointsOfInterestModel>()
-//        val myImageList = arrayOf(R.drawable.gower_peninsula, R.drawable.mumbles_pier)
-//
-//        val distancesList = arrayOf(5, 9)
-//        val myImageNameList = arrayOf(R.string.gower_peninsula, R.string.mumbles_pier)
-//
-//        for (i in 0..1) {
-//            val imageModel = PointsOfInterestModel()
-//            imageModel.setNames(getString(myImageNameList[i]))
-//            imageModel.setDistances(distancesList[i])
-//            imageModel.setImages(myImageList[i])
-//            list.add(imageModel)
-//        }
-//        list.sortBy { list -> list.name }
-//        return list
-//    }
-
 }

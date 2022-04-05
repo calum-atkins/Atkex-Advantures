@@ -48,7 +48,6 @@ class PointsOPfInterestAdapter ( private val context: Context, private val image
         }
 
         holder.txtTitle.text = info.getNames()
-        holder.txtDistance.text = info.getDistances() + " km's"
     }
 
     /*
@@ -66,7 +65,6 @@ class PointsOPfInterestAdapter ( private val context: Context, private val image
 
         var imgView = itemView.findViewById<View>(R.id.image) as ImageView
         var txtTitle = itemView.findViewById<View>(R.id.title) as TextView
-        var txtDistance = itemView.findViewById<View>(R.id.distance) as TextView
 
         init {
             itemView.setOnClickListener(this)
@@ -81,7 +79,6 @@ class PointsOPfInterestAdapter ( private val context: Context, private val image
             /** Intent of which poi to go to */
             val intent = Intent(v.getContext(), PointOfInterestActivity::class.java)
             intent.putExtra("name", txtTitle.text)
-            intent.putExtra("distance", txtDistance.text)
 
 
             for (item in imageModelArrayList) {

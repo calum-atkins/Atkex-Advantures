@@ -1,5 +1,6 @@
 package com.example.atkex
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.view.LayoutInflater
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 
 
-class LeaderboardsAdapter (private val imageModelArrayList: MutableList<LeaderboardsModel>) : RecyclerView.Adapter<LeaderboardsAdapter.ViewHolder>() {
+class LeaderboardsAdapter (private val context: Context, private val imageModelArrayList: MutableList<LeaderboardsModel>) : RecyclerView.Adapter<LeaderboardsAdapter.ViewHolder>() {
     /*
      * Inflate our views using the layout defined in row_layout.xml
      */
@@ -29,7 +30,7 @@ class LeaderboardsAdapter (private val imageModelArrayList: MutableList<Leaderbo
         val info = imageModelArrayList[position]
 
         holder.txtName.text = "Player: " + info.getNames()
-        holder.txtPoints.text = "Points: " + info.getPoints()
+        holder.txtPoints.text = "Points: " + info.getPoints().toString()
     }
 
     /*
@@ -57,18 +58,6 @@ class LeaderboardsAdapter (private val imageModelArrayList: MutableList<Leaderbo
                 txtName.text.toString()
             val snackbar = Snackbar.make(v, mess, Snackbar.LENGTH_LONG)
             snackbar.show()
-
-//            /** Intent of which poi to go to */
-//            val intent = Intent(v.getContext(), PointOfInterestActivity::class.java)
-//            intent.putExtra("name", txtTitle.text)
-//            intent.putExtra("distance", txtDistance.text)
-//            //intent.putExtra("image", )
-//
-//            imgView.buildDrawingCache()
-//            val bitmap: Bitmap = imgView.getDrawingCache()
-//            intent.putExtra("BitmapImage", bitmap)
-//
-//            v.getContext().startActivity(intent)
         }
     }
 }
