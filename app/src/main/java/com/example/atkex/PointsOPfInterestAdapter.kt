@@ -3,7 +3,6 @@ package com.example.atkex
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,14 +11,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
-import java.io.File
 
 
-class PointsOPfInterestAdapter ( private val context: Context, private val imageModelArrayList: MutableList<PointsOfInterestModel>) : RecyclerView.Adapter<PointsOPfInterestAdapter.ViewHolder>() {
+class PointsOPfInterestAdapter (private val context: Context, private val imageModelArrayList: MutableList<PointsOfInterestModel>) : RecyclerView.Adapter<PointsOPfInterestAdapter.ViewHolder>() {
     /*
      * Inflate our views using the layout defined in row_layout.xml
      */
@@ -87,6 +84,9 @@ class PointsOPfInterestAdapter ( private val context: Context, private val image
                     intent.putExtra("info", item.info)
                     intent.putExtra("lat", item.lat)
                     intent.putExtra("long", item.long)
+
+
+                    //intent.putExtra("collection_id", collectionId)
                 }
 
             }
