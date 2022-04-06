@@ -127,6 +127,7 @@ class LoginActivity : AppCompatActivity() {
         user["name"] = name
         user["email"] = email
         user["points"] = 0
+        user["admin"] = false
 
         db.collection("users")
             .add(user)

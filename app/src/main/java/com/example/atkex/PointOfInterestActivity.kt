@@ -114,7 +114,6 @@ class PointOfInterestActivity  : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document != null) {
                     var username = document.getString("name").toString()
-//                    Log.d("TAG", document.getString("name").toString())
                     addComment(username, comment, userDocumentID)
                 }
             }

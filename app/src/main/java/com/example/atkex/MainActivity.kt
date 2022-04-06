@@ -86,6 +86,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
             R.id.settings_but -> {
                 val newIntent = Intent(this, SettingsActivity::class.java)
+                newIntent.putExtra("userDocumentID", userDocumentID)
                 startActivity(newIntent)
                 return true
             }
@@ -233,6 +234,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     fun onClickSettings(view: View) {
         val newIntent = Intent(this, SettingsActivity::class.java)
+
         startActivity(newIntent)
     }
 
