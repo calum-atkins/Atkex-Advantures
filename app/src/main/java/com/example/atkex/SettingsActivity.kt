@@ -25,6 +25,11 @@ class SettingsActivity : AppCompatActivity() {
         return true
     }
 
+    fun onClickEditPOI(view: View) {
+        val newIntent = Intent(this, ManagePointsOfInterestActivity::class.java)
+        startActivity(newIntent)
+    }
+
     fun onClickAddPOI(view: View) {
         val newIntent = Intent(this, AddPOIActivity::class.java)
         startActivity(newIntent)

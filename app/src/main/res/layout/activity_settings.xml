@@ -50,10 +50,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="28dp"
-        android:text="Edit POI's"
         android:backgroundTint="#4f0e0e"
+        android:onClick="onClickEditPOI"
+        android:text="Edit POI's"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_edit2"

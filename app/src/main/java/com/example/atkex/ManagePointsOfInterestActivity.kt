@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
 
-class PointsOfInterestActivity : AppCompatActivity() {
+class ManagePointsOfInterestActivity : AppCompatActivity() {
 
     private lateinit var recyclerView : RecyclerView
     private lateinit var poiArrayList : ArrayList<PointsOfInterestModel>
     private lateinit var collectionIDList : ArrayList<String>
-    private lateinit var myAdapter : PointsOfInterestAdapter
+    private lateinit var myAdapter : ManagePointsOfInterestAdapter
     private lateinit var db : FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +26,7 @@ class PointsOfInterestActivity : AppCompatActivity() {
 
         poiArrayList = arrayListOf()
         collectionIDList = arrayListOf()
-        myAdapter = PointsOfInterestAdapter(this@PointsOfInterestActivity, poiArrayList, collectionIDList)
+        myAdapter = ManagePointsOfInterestAdapter(this@ManagePointsOfInterestActivity, poiArrayList, collectionIDList)
         recyclerView.adapter = myAdapter
 
         EventChangeListener()

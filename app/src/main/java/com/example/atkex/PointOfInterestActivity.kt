@@ -1,6 +1,5 @@
 package com.example.atkex
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
@@ -24,6 +23,8 @@ class PointOfInterestActivity  : AppCompatActivity() {
     private lateinit var myAdapter : ReviewsAdapter
     private lateinit var db : FirebaseFirestore
 
+    private var id = ""
+
     lateinit var tts : TextToSpeech
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,11 +39,13 @@ class PointOfInterestActivity  : AppCompatActivity() {
         var lat = ""
         var long = ""
 
+
         if (extras != null) {
             name = extras.getString("name") as String
             info = extras.getString("info") as String
             lat = extras.getString("lat") as String
             long = extras.getString("long") as String
+            id = extras.getString("id") as String
         }
 
         newToolbar.title = name
@@ -57,7 +60,7 @@ class PointOfInterestActivity  : AppCompatActivity() {
         val textViewName = findViewById<TextView>(R.id.text_view_name)
         val textViewDistance = findViewById<TextView>(R.id.text_view_distance)
         val textViewInfo = findViewById<TextView>(R.id.text_view_info)
-        val speakButton = findViewById<Button>(R.id.btnSpeak)
+        val speakButton = findViewById<Button>(R.id.btnUpdate)
 
 
 
@@ -93,7 +96,8 @@ class PointOfInterestActivity  : AppCompatActivity() {
     private fun EventChangeListener() {
         db = FirebaseFirestore.getInstance()
 
-        db.collection("points_of_interests/02ESZ6AHBj0rx1U0HEyo/reviews")//.orderBy("distance", Query.Direction.ASCENDING)
+
+        db.collection("points_of_interests/$id/reviews")//.orderBy("distance", Query.Direction.ASCENDING)
             .addSnapshotListener(object : EventListener<QuerySnapshot> {
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                     if (error != null) {

@@ -11,12 +11,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
 
-class PointsOPfInterestAdapter (private val context: Context, private val imageModelArrayList: MutableList<PointsOfInterestModel>) : RecyclerView.Adapter<PointsOPfInterestAdapter.ViewHolder>() {
+class PointsOfInterestAdapter (private val context: Context, private val imageModelArrayList: MutableList<PointsOfInterestModel>, private val collectionIDList: ArrayList<String>) : RecyclerView.Adapter<PointsOfInterestAdapter.ViewHolder>() {
     /*
      * Inflate our views using the layout defined in row_layout.xml
      */
@@ -77,17 +76,19 @@ class PointsOPfInterestAdapter (private val context: Context, private val imageM
             val intent = Intent(v.getContext(), PointOfInterestActivity::class.java)
             intent.putExtra("name", txtTitle.text)
 
-
+            var count = 0
             for (item in imageModelArrayList) {
                 if (item.name == txtTitle.text) {
                     //ADD PASSING INFORMATION HERE
                     intent.putExtra("info", item.info)
                     intent.putExtra("lat", item.lat)
                     intent.putExtra("long", item.long)
+                    intent.putExtra("id", collectionIDList.get(count))
 
 
                     //intent.putExtra("collection_id", collectionId)
                 }
+                count += 1
 
             }
             //intent.putExtra("image", )
