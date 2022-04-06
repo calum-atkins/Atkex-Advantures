@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var googleMap : GoogleMap
     private lateinit var client : FusedLocationProviderClient
     private lateinit var lastLocation : Location
-    private lateinit var userName : String
+    private lateinit var userDocumentID : String
 
     private lateinit var db : FirebaseFirestore
 
@@ -45,11 +45,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val extras = intent.extras
+        userDocumentID = ""
+
+        if (extras != null) {
+            userDocumentID = extras.getString("documentID") as String
+        }
+
         val newToolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.main_toolbar)
         setSupportActionBar(newToolbar)
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+
 
         //Initialise location
         client = LocationServices.getFusedLocationProviderClient(this)
@@ -67,6 +76,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         when (item.itemId) {
             R.id.POI_list_but -> {
                 val newIntent = Intent(this, PointsOfInterestActivity::class.java)
+                newIntent.putExtra("userDocumentID", userDocumentID)
                 startActivity(newIntent)
                 return true
             }

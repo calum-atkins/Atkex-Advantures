@@ -15,7 +15,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
 
-class PointsOfInterestAdapter (private val context: Context, private val imageModelArrayList: MutableList<PointsOfInterestModel>, private val collectionIDList: ArrayList<String>) : RecyclerView.Adapter<PointsOfInterestAdapter.ViewHolder>() {
+class PointsOfInterestAdapter (private val context: Context, private val imageModelArrayList: MutableList<PointsOfInterestModel>,
+                               private val collectionIDList: ArrayList<String>, private val userDocumentID : String) : RecyclerView.Adapter<PointsOfInterestAdapter.ViewHolder>() {
     /*
      * Inflate our views using the layout defined in row_layout.xml
      */
@@ -84,6 +85,7 @@ class PointsOfInterestAdapter (private val context: Context, private val imageMo
                     intent.putExtra("lat", item.lat)
                     intent.putExtra("long", item.long)
                     intent.putExtra("id", collectionIDList.get(count))
+                    intent.putExtra("userDocumentID", userDocumentID)
 
 
                     //intent.putExtra("collection_id", collectionId)

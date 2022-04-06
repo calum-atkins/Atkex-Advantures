@@ -15,10 +15,18 @@ class PointsOfInterestActivity : AppCompatActivity() {
     private lateinit var myAdapter : PointsOfInterestAdapter
     private lateinit var db : FirebaseFirestore
 
+    private lateinit var userDocumentID : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_points_of_interest)
 
+        val extras = intent.extras
+        var userDocumentID = ""
+
+        if (extras != null) {
+            userDocumentID = extras.getString("userDocumentID") as String
+        }
 
         recyclerView = findViewById(R.id.recycler_view_list_poi)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -26,7 +34,7 @@ class PointsOfInterestActivity : AppCompatActivity() {
 
         poiArrayList = arrayListOf()
         collectionIDList = arrayListOf()
-        myAdapter = PointsOfInterestAdapter(this@PointsOfInterestActivity, poiArrayList, collectionIDList)
+        myAdapter = PointsOfInterestAdapter(this@PointsOfInterestActivity, poiArrayList, collectionIDList, userDocumentID)
         recyclerView.adapter = myAdapter
 
         EventChangeListener()

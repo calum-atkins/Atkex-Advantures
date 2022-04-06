@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -19,6 +20,8 @@ class LoginActivity : AppCompatActivity() {
     private var mAuth = FirebaseAuth.getInstance()
     private var currentUser = mAuth.currentUser
     lateinit var cEmail : String
+
+    private lateinit var db : FirebaseFirestore
 
     lateinit var emailText : EditText
     lateinit var passwordText : EditText
@@ -48,9 +51,19 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun loginClick(view : View) {
+        db = FirebaseFirestore.getInstance()
         if (loginBtn.text.toString() == "Map") {
             val newIntent = Intent(this, MainActivity::class.java)
-            startActivity(newIntent)
+            Log.d("TAG", cEmail)
+            db.collection("users")
+                .whereEqualTo("email", cEmail).get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        newIntent.putExtra("documentID", document.id)
+                        startActivity(newIntent)
+                    }
+                }
+
         } else if (emailText.text.toString().isEmpty() || passwordText.text.toString().isEmpty()) {
             closeKeyBoard()
             displayMessage(loginBtn, getString(R.string.login_fail))

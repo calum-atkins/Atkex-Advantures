@@ -10,10 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.*
-import com.google.firebase.firestore.EventListener
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -65,8 +62,8 @@ class ManagePointOfInterestActivity  : AppCompatActivity() {
         val inputTextLong = findViewById<EditText>(R.id.inputTextLong)
         val inputTextInfo = findViewById<EditText>(R.id.inputTextInfo)
 
-        updateButton = findViewById<Button>(R.id.btnUpdate)
-        deleteButton = findViewById<Button>(R.id.btnDelete)
+        updateButton = findViewById<Button>(R.id.btnSpeak)
+        deleteButton = findViewById<Button>(R.id.btnPostReview)
 
 
         inputTextName.setText(name)
@@ -92,7 +89,8 @@ class ManagePointOfInterestActivity  : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         db.collection("points_of_interests")
             .document(id).delete().addOnSuccessListener {
-                onSupportNavigateUp()
+//                onSupportNavigateUp()
+//                displayMessage(recyclerView, "Successfully deleted.")
             }.addOnFailureListener {
                 displayMessage(deleteButton, "Failed to delete.")
             }

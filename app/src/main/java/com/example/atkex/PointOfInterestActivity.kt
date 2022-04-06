@@ -1,10 +1,13 @@
 package com.example.atkex
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +26,8 @@ class PointOfInterestActivity  : AppCompatActivity() {
     private lateinit var myAdapter : ReviewsAdapter
     private lateinit var db : FirebaseFirestore
 
+    private lateinit var reviewText : EditText
+
     private var id = ""
 
     lateinit var tts : TextToSpeech
@@ -38,6 +43,7 @@ class PointOfInterestActivity  : AppCompatActivity() {
         var info = ""
         var lat = ""
         var long = ""
+        var userDocumentID = ""
 
 
         if (extras != null) {
@@ -46,6 +52,7 @@ class PointOfInterestActivity  : AppCompatActivity() {
             lat = extras.getString("lat") as String
             long = extras.getString("long") as String
             id = extras.getString("id") as String
+            userDocumentID = extras.getString("userDocumentID") as String
         }
 
         newToolbar.title = name
@@ -60,8 +67,10 @@ class PointOfInterestActivity  : AppCompatActivity() {
         val textViewName = findViewById<TextView>(R.id.text_view_name)
         val textViewDistance = findViewById<TextView>(R.id.text_view_distance)
         val textViewInfo = findViewById<TextView>(R.id.text_view_info)
-        val speakButton = findViewById<Button>(R.id.btnUpdate)
+        val speakButton = findViewById<Button>(R.id.btnSpeak)
 
+        val postReviewButton = findViewById<Button>(R.id.btnPostReview)
+        reviewText = findViewById<EditText>(R.id.input_review)
 
 
         textViewName.text = name
@@ -76,6 +85,10 @@ class PointOfInterestActivity  : AppCompatActivity() {
                     tts.speak(textViewInfo.text.toString(), TextToSpeech.QUEUE_ADD, null)
                 }
             })
+        }
+
+        postReviewButton.setOnClickListener {
+            postReview(userDocumentID, reviewText.text.toString())
         }
 
         var bitmap: Bitmap? = intent.getParcelableExtra("BitmapImage") as Bitmap?
@@ -93,11 +106,46 @@ class PointOfInterestActivity  : AppCompatActivity() {
 
     }
 
+    private fun postReview(userDocumentID: String, comment: String) {
+        db = FirebaseFirestore.getInstance()
+
+        val docRef = db.collection("users").document(userDocumentID)
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    var username = document.getString("name").toString()
+//                    Log.d("TAG", document.getString("name").toString())
+                    addComment(username, comment, userDocumentID)
+                }
+            }
+    }
+
+    private fun addComment(username: String, comment: String, userDocumentID: String) {
+        val db = FirebaseFirestore.getInstance()
+        val review: MutableMap<String, Any> = HashMap()
+        review["name"] = username
+        review["comment"] = comment
+
+        db.collection("points_of_interests/$id/reviews")
+            .add(review).addOnSuccessListener {
+                closeKeyBoard()
+                reviewText.text.clear()
+            }
+
+    }
+
+    private fun closeKeyBoard() {
+        val view = this.currentFocus
+        if (view != null) {
+            val imn = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imn.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
+
     private fun EventChangeListener() {
         db = FirebaseFirestore.getInstance()
 
-
-        db.collection("points_of_interests/$id/reviews")//.orderBy("distance", Query.Direction.ASCENDING)
+        db.collection("points_of_interests/$id/reviews")
             .addSnapshotListener(object : EventListener<QuerySnapshot> {
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                     if (error != null) {
