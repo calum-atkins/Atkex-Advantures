@@ -1,28 +1,27 @@
 package com.example.atkex
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.view.View
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.*
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.hardware.camera2.CameraAccessException
 import android.location.Location
+import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.*
 
 
@@ -35,7 +34,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var userDocumentID : String
 
     private lateinit var db : FirebaseFirestore
-
+    private lateinit var currentLocation : LatLng
 
     companion object{
         private const val LOCATION_REQUEST_CODE = 1
@@ -106,7 +105,77 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
          googleMap.uiSettings.isZoomControlsEnabled = true
          googleMap.setOnMarkerClickListener(this)
+
+         googleMap.setOnMarkerClickListener(OnMarkerClickListener { marker ->
+             val markerName = marker.title
+             val markerPosition = marker.position
+
+             val distance = FloatArray(1)
+             Location.distanceBetween(
+                 markerPosition.latitude, markerPosition.longitude,
+                 currentLocation.latitude, currentLocation.longitude, distance
+             )
+
+             val radiusInMeters = 50.0 //1 km = 1000 m (km * m)
+
+             if( distance[0] > radiusInMeters ){
+                 Toast.makeText(getBaseContext(),
+                     markerPosition.toString(),
+                     Toast.LENGTH_LONG).show();
+             } else {
+
+                 val pointOfInterest: MutableMap<String, Any> = HashMap()
+                 pointOfInterest["name"] = markerName.toString()
+
+                 db = FirebaseFirestore.getInstance()
+
+                 val rootRef = FirebaseFirestore.getInstance()
+                 val allUsersRef = rootRef.collection("users/$userDocumentID/visited")
+                 val userNameQuery = allUsersRef.whereEqualTo("name", markerName)
+                 userNameQuery.get().addOnCompleteListener { task ->
+                     if (task.isSuccessful) {
+                         var unvisited: Boolean = true
+                         for (document in task.result) {
+                             if (document.exists()) {
+                                unvisited = false;
+                                 Toast.makeText(getBaseContext(),
+                             "You have already visited " + markerName ,
+                                Toast.LENGTH_LONG).show()
+
+                             }
+                         }
+                         if (unvisited) {
+                             db.collection("users/$userDocumentID/visited")
+                                 .add(pointOfInterest)
+                                 .addOnSuccessListener {
+                                     Toast.makeText(getBaseContext(),
+                                         "New POI discovered " + markerName ,
+                                         Toast.LENGTH_LONG).show()
+                                 }
+                             val docRef = db.collection("users").document(userDocumentID)
+                                 .get()
+                                 .addOnSuccessListener { document ->
+                                     if (document != null) {
+                                         var points = document.getLong("points")
+                                         points = points?.plus(1)
+                                         updatePoints(userDocumentID, points!!)
+                                     }
+                                 }
+                         }
+                     } else {
+                         Log.d("TAG", "Error getting documents: ", task.exception)
+                     }
+                 }
+             }
+             false
+         })
+
          setupMap()
+    }
+
+    private fun updatePoints(id: String, points: Long) {
+        db = FirebaseFirestore.getInstance()
+        db.collection("users").document(userDocumentID).update("points", points)
     }
 
     private fun setupMap() {
@@ -121,6 +190,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             if (location != null) {
                 lastLocation = location
                 val currentLatLong = LatLng(location.latitude, location.longitude)
+                currentLocation = currentLatLong
                 //placeMarkerOnMap(currentLatLong, "You are here")
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 12f))
                 addMarkers()
@@ -130,7 +200,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     private fun addMarkers() {
         db = FirebaseFirestore.getInstance()
-        db.collection("points_of_interests")//.orderBy("distance", Query.Direction.ASCENDING)
+        db.collection("points_of_interests")
             .addSnapshotListener(object : EventListener<QuerySnapshot> {
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                     if (error != null) {
@@ -152,6 +222,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private fun placeMarkerOnMap(currentLatLong: LatLng, name: String) {
         val markerOptions = MarkerOptions().position(currentLatLong)
         markerOptions.title("$name")
+
         googleMap.addMarker(markerOptions)
     }
 

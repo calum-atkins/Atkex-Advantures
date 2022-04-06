@@ -53,7 +53,7 @@ class LeaderboardsActivity : AppCompatActivity() {
 
     private fun EventChangeListener() {
         db = FirebaseFirestore.getInstance()
-        db.collection("users")//.orderBy("distance", Query.Direction.ASCENDING)
+        db.collection("users")//.orderBy("points", Query.Direction.DESCENDING)
             .addSnapshotListener(object : EventListener<QuerySnapshot> {
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                     if (error != null) {
