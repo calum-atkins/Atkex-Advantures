@@ -58,7 +58,7 @@ class PointsOfInterestActivity : AppCompatActivity() {
     }
 
     /**
-     * Method ro go to previous activity
+     * Method to go to previous activity
      */
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()

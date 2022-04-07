@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.HideReturnsTransformationMethod
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -44,6 +45,8 @@ class LoginActivity : AppCompatActivity() {
         usernameText = findViewById(R.id.nameInput)
         loginBtn = findViewById(R.id.btn_login)
         registerBtn = findViewById(R.id.btn_register)
+
+        passwordText.transformationMethod = HideReturnsTransformationMethod.getInstance()
     }
 
     /**
@@ -55,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     /**
-     * Method for login button click --------------------------------
+     * Method for login button click
      */
     fun loginClick(view : View) {
         db = FirebaseFirestore.getInstance()

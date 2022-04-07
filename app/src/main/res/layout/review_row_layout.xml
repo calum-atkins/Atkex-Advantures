@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="40dp"
     android:padding="6dp">
 
     <TextView
@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_weight="0.6"
-        android:text="POI Name"
-        android:textSize="22sp" />
+        android:text="POI Name"/>
 
 </LinearLayout>

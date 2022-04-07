@@ -2,12 +2,8 @@
     <string name="app_name">Atkex</string>
 
     <string name="logged_in">Logged in with %s</string>
-    <string name="not_logged_in">Please sign in above.</string>
+    <string name="not_logged_in">Please sign in below.</string>
     <string name="login_fail">Incorrect login details.</string>
     <string name="register_fail">Incorrect register details.</string>
-    <string name="register_while_logged_in">Cannot register while lodded in.</string>
-
-
-    <string name="mumbles_pier">Mumbles Pier</string>
-    <string name="gower_peninsula">Gower Peninsula</string>
+    <string name="register_while_logged_in">Cannot register while logged in.</string>
 </resources>

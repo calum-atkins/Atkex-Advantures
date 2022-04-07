@@ -208,7 +208,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 lastLocation = location
                 val currentLatLong = LatLng(location.latitude, location.longitude)
                 currentLocation = currentLatLong
-                //placeMarkerOnMap(currentLatLong, "You are here")
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 12f))
                 addMarkers()
             }
@@ -249,9 +248,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         googleMap.addMarker(markerOptions)
     }
 
-    /**
-     * Method called on leader DO NOT NEED? ----------------------------------------------------
-     */
     fun onClickLeaderboards(view: View) {
         val newIntent = Intent(this, LeaderboardsActivity::class.java)
         startActivity(newIntent)
