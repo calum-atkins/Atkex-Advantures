@@ -18,33 +18,34 @@ import com.google.firebase.firestore.EventListener
 import java.util.*
 import kotlin.collections.ArrayList
 
-
+/**
+ * Class for a selected point of interest activity
+ */
 class PointOfInterestActivity  : AppCompatActivity() {
 
+    //Initialise variables
     private lateinit var recyclerView : RecyclerView
     private lateinit var reviewsList : ArrayList<ReviewsModel>
     private lateinit var myAdapter : ReviewsAdapter
     private lateinit var db : FirebaseFirestore
-
     private lateinit var reviewText : EditText
-
     private var id = ""
-
-    lateinit var tts : TextToSpeech
+    private lateinit var tts : TextToSpeech
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_point_of_interest)
 
+        //Initialise toolbar
         val newToolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.main_toolbar)
 
+        //Initialise intents
         val extras = intent.extras
         var name = ""
         var info = ""
         var lat = ""
         var long = ""
         var userDocumentID = ""
-
 
         if (extras != null) {
             name = extras.getString("name") as String
@@ -55,6 +56,7 @@ class PointOfInterestActivity  : AppCompatActivity() {
             userDocumentID = extras.getString("userDocumentID") as String
         }
 
+        //Toolbar settings
         newToolbar.title = name
         setSupportActionBar(newToolbar)
         supportActionBar?.apply {
@@ -62,21 +64,19 @@ class PointOfInterestActivity  : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-
+        //Initialise pallet
         val imageView = findViewById<ImageView>(R.id.imageView)
         val textViewName = findViewById<TextView>(R.id.text_view_name)
         val textViewDistance = findViewById<TextView>(R.id.text_view_distance)
         val textViewInfo = findViewById<TextView>(R.id.text_view_info)
         val speakButton = findViewById<Button>(R.id.btnSpeak)
-
         val postReviewButton = findViewById<Button>(R.id.btnPostReview)
         reviewText = findViewById<EditText>(R.id.input_review)
-
-
         textViewName.text = name
         textViewDistance.text = "($lat, $long)"
         textViewInfo.text = "Info\n$info"
 
+        //On speak button press
         speakButton.setOnClickListener {
             tts = TextToSpeech(applicationContext, TextToSpeech.OnInitListener {
                 if (it==TextToSpeech.SUCCESS) {
@@ -87,13 +87,16 @@ class PointOfInterestActivity  : AppCompatActivity() {
             })
         }
 
+        //On post review button press
         postReviewButton.setOnClickListener {
             postReview(userDocumentID, reviewText.text.toString())
         }
 
+        /** DO NEED??????????????????????????????????*/
         var bitmap: Bitmap? = intent.getParcelableExtra("BitmapImage") as Bitmap?
         imageView.setImageBitmap(bitmap)
 
+        //Initialise recycler view
         recyclerView = findViewById(R.id.recyclerViewReview)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
@@ -103,9 +106,11 @@ class PointOfInterestActivity  : AppCompatActivity() {
         recyclerView.adapter = myAdapter
 
         EventChangeListener()
-
     }
 
+    /**
+     * Method called to post a review
+     */
     private fun postReview(userDocumentID: String, comment: String) {
         db = FirebaseFirestore.getInstance()
 
@@ -119,6 +124,9 @@ class PointOfInterestActivity  : AppCompatActivity() {
             }
     }
 
+    /**
+     * Method to add comment to database
+     */
     private fun addComment(username: String, comment: String, userDocumentID: String) {
         val db = FirebaseFirestore.getInstance()
         val review: MutableMap<String, Any> = HashMap()
@@ -130,9 +138,11 @@ class PointOfInterestActivity  : AppCompatActivity() {
                 closeKeyBoard()
                 reviewText.text.clear()
             }
-
     }
 
+    /**
+     * Method to close on screen keyboard
+     */
     private fun closeKeyBoard() {
         val view = this.currentFocus
         if (view != null) {
@@ -141,6 +151,9 @@ class PointOfInterestActivity  : AppCompatActivity() {
         }
     }
 
+    /**
+     * Method to check for database changes
+     */
     private fun EventChangeListener() {
         db = FirebaseFirestore.getInstance()
 
@@ -162,6 +175,9 @@ class PointOfInterestActivity  : AppCompatActivity() {
             })
     }
 
+    /**
+     * Method to go to previous activity
+     */
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true

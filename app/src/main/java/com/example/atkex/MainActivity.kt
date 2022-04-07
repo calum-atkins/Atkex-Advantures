@@ -24,15 +24,17 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.*
 
-
+/**
+ * Main activity class
+ */
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
+    //Initialise variables
     private lateinit var mapFragment : SupportMapFragment
     private lateinit var googleMap : GoogleMap
     private lateinit var client : FusedLocationProviderClient
     private lateinit var lastLocation : Location
     private lateinit var userDocumentID : String
-
     private lateinit var db : FirebaseFirestore
     private lateinit var currentLocation : LatLng
 
@@ -40,6 +42,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         private const val LOCATION_REQUEST_CODE = 1
     }
 
+    /**
+     * Method on activity start
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -57,18 +62,22 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-
-
         //Initialise location
         client = LocationServices.getFusedLocationProviderClient(this)
 
     }
 
+    /**
+     * Method to inflate options button
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_layout, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
+    /**
+     * Method for options button
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val myView = findViewById<View>(R.id.main_toolbar)
 
@@ -96,40 +105,43 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 return true
             }
         }
-
-
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Method to intialis
+     */
      override fun onMapReady(_googleMap: GoogleMap) {
          googleMap = _googleMap
 
          googleMap.uiSettings.isZoomControlsEnabled = true
          googleMap.setOnMarkerClickListener(this)
 
+        //Marker on clicker listener
          googleMap.setOnMarkerClickListener(OnMarkerClickListener { marker ->
              val markerName = marker.title
              val markerPosition = marker.position
 
+             //Calculate range from user to marker
              val distance = FloatArray(1)
              Location.distanceBetween(
                  markerPosition.latitude, markerPosition.longitude,
                  currentLocation.latitude, currentLocation.longitude, distance
              )
+             val radiusInMeters = 30.0 //30m
 
-             val radiusInMeters = 50.0 //1 km = 1000 m (km * m)
-
-             if( distance[0] > radiusInMeters ){
+             //Check if user is within range
+             if (distance[0] > radiusInMeters){
                  Toast.makeText(getBaseContext(),
                      markerPosition.toString(),
                      Toast.LENGTH_LONG).show();
              } else {
-
                  val pointOfInterest: MutableMap<String, Any> = HashMap()
                  pointOfInterest["name"] = markerName.toString()
 
                  db = FirebaseFirestore.getInstance()
 
+                 //Find out if user has already visited POI's
                  val rootRef = FirebaseFirestore.getInstance()
                  val allUsersRef = rootRef.collection("users/$userDocumentID/visited")
                  val userNameQuery = allUsersRef.whereEqualTo("name", markerName)
@@ -142,7 +154,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                                  Toast.makeText(getBaseContext(),
                              "You have already visited " + markerName ,
                                 Toast.LENGTH_LONG).show()
-
                              }
                          }
                          if (unvisited) {
@@ -170,15 +181,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
              }
              false
          })
-
          setupMap()
     }
 
+    /**
+     * Method to update number of users points
+     */
     private fun updatePoints(id: String, points: Long) {
         db = FirebaseFirestore.getInstance()
         db.collection("users").document(userDocumentID).update("points", points)
     }
 
+    /**
+     * Method to setup map
+     */
     private fun setupMap() {
         if (ActivityCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -199,6 +215,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
+    /**
+     * Method to retrieve marker data from database
+     */
     private fun addMarkers() {
         db = FirebaseFirestore.getInstance()
         db.collection("points_of_interests")
@@ -220,6 +239,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             })
     }
 
+    /**
+     * Method to place marker on the map at lat long
+     */
     private fun placeMarkerOnMap(currentLatLong: LatLng, name: String) {
         val markerOptions = MarkerOptions().position(currentLatLong)
         markerOptions.title("$name")
@@ -227,6 +249,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         googleMap.addMarker(markerOptions)
     }
 
+    /**
+     * Method called on leader DO NOT NEED? ----------------------------------------------------
+     */
     fun onClickLeaderboards(view: View) {
         val newIntent = Intent(this, LeaderboardsActivity::class.java)
         startActivity(newIntent)

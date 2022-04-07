@@ -1,5 +1,8 @@
 package com.example.atkex
 
+/**
+ * Class for a review on point of interest
+ */
 class ReviewsModel {
     var name: String? = null
     var comment: String? = null

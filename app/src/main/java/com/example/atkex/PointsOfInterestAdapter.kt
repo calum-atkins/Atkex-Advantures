@@ -14,14 +14,15 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
-
+/**
+ * Adapter for points of interests
+ */
 class PointsOfInterestAdapter (private val context: Context, private val imageModelArrayList: MutableList<PointsOfInterestModel>,
                                private val collectionIDList: ArrayList<String>, private val userDocumentID : String) : RecyclerView.Adapter<PointsOfInterestAdapter.ViewHolder>() {
-    /*
+    /**
      * Inflate our views using the layout defined in row_layout.xml
      */
     private val storageRef = Firebase.storage.getReferenceFromUrl("gs://atkex-project.appspot.com")
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -30,7 +31,7 @@ class PointsOfInterestAdapter (private val context: Context, private val imageMo
         return ViewHolder(v)
     }
 
-    /*
+    /**
      * Bind the data to the child views of the ViewHolder
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -47,14 +48,14 @@ class PointsOfInterestAdapter (private val context: Context, private val imageMo
         holder.txtTitle.text = info.getNames()
     }
 
-    /*
+    /**
      * Number of models in the array
      */
     override fun getItemCount(): Int {
         return imageModelArrayList.size
     }
 
-    /*
+    /**
      * The parent class that handles layout inflation and child view use
      */
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener
@@ -80,20 +81,15 @@ class PointsOfInterestAdapter (private val context: Context, private val imageMo
             var count = 0
             for (item in imageModelArrayList) {
                 if (item.name == txtTitle.text) {
-                    //ADD PASSING INFORMATION HERE
                     intent.putExtra("info", item.info)
                     intent.putExtra("lat", item.lat)
                     intent.putExtra("long", item.long)
                     intent.putExtra("id", collectionIDList.get(count))
                     intent.putExtra("userDocumentID", userDocumentID)
-
-
-                    //intent.putExtra("collection_id", collectionId)
                 }
                 count += 1
 
             }
-            //intent.putExtra("image", )
 
             imgView.buildDrawingCache()
             val bitmap: Bitmap = imgView.getDrawingCache()

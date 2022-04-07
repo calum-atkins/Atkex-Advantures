@@ -1,5 +1,8 @@
 package com.example.atkex
 
+/**
+ * Model class for leaderboards
+ */
 class LeaderboardsModel {
     var name: String? = null
     var point: Int? = 0

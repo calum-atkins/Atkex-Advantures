@@ -7,20 +7,27 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
 
+/**
+ * Activity to display the list of points of interest
+ */
 class PointsOfInterestActivity : AppCompatActivity() {
 
+    //Initialise variables
     private lateinit var recyclerView : RecyclerView
     private lateinit var poiArrayList : ArrayList<PointsOfInterestModel>
     private lateinit var collectionIDList : ArrayList<String>
     private lateinit var myAdapter : PointsOfInterestAdapter
     private lateinit var db : FirebaseFirestore
-
     private lateinit var userDocumentID : String
 
+    /**
+     * Method called on activity start
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_points_of_interest)
 
+        //Initialise intents
         val extras = intent.extras
         var userDocumentID = ""
 
@@ -28,6 +35,7 @@ class PointsOfInterestActivity : AppCompatActivity() {
             userDocumentID = extras.getString("userDocumentID") as String
         }
 
+        //Initialise recycler view
         recyclerView = findViewById(R.id.recycler_view_list_poi)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
@@ -39,6 +47,7 @@ class PointsOfInterestActivity : AppCompatActivity() {
 
         EventChangeListener()
 
+        //Initialise toolbar
         val newToolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.main_toolbar)
         setSupportActionBar(newToolbar)
 
@@ -46,14 +55,19 @@ class PointsOfInterestActivity : AppCompatActivity() {
             setDisplayShowHomeEnabled(true)
             setDisplayHomeAsUpEnabled(true)
         }
-
     }
 
+    /**
+     * Method ro go to previous activity
+     */
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
     }
 
+    /**
+     * Method to check for database changes and update view
+     */
     private fun EventChangeListener() {
         db = FirebaseFirestore.getInstance()
         db.collection("points_of_interests")//.orderBy("distance", Query.Direction.ASCENDING)
@@ -70,10 +84,8 @@ class PointsOfInterestActivity : AppCompatActivity() {
 
                         }
                     }
-
                     myAdapter.notifyDataSetChanged()
                 }
             })
     }
-
 }

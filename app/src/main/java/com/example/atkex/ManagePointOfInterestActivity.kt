@@ -13,24 +13,29 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.*
 import kotlin.collections.ArrayList
 
-
+/**
+ * Activity screen manage a point of interest
+ */
 class ManagePointOfInterestActivity  : AppCompatActivity() {
 
+    //Initialise variables
     private lateinit var recyclerView : RecyclerView
     private lateinit var reviewsList : ArrayList<ReviewsModel>
     private lateinit var myAdapter : ReviewsAdapter
     private lateinit var db : FirebaseFirestore
     private lateinit var databaseReference: DatabaseReference
-
-    lateinit var updateButton : Button
-    lateinit var deleteButton : Button
-
+    private lateinit var updateButton : Button
+    private lateinit var deleteButton : Button
     private var id = ""
 
+    /**
+     * Method called on activity start
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.manage_activity_point_of_interest)
 
+        //Initialise toolba
         val newToolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.main_toolbar)
 
         val extras = intent.extras
@@ -39,6 +44,7 @@ class ManagePointOfInterestActivity  : AppCompatActivity() {
         var lat = ""
         var long = ""
 
+        //Define intents
         if (extras != null) {
             name = extras.getString("name") as String
             info = extras.getString("info") as String
@@ -54,9 +60,8 @@ class ManagePointOfInterestActivity  : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-
+        //Define palette
         val imageView = findViewById<ImageView>(R.id.imageView)
-
         val inputTextName = findViewById<EditText>(R.id.inputTextName)
         val inputTextLat = findViewById<EditText>(R.id.inputTextLat)
         val inputTextLong = findViewById<EditText>(R.id.inputTextLong)
@@ -65,12 +70,12 @@ class ManagePointOfInterestActivity  : AppCompatActivity() {
         updateButton = findViewById<Button>(R.id.btnSpeak)
         deleteButton = findViewById<Button>(R.id.btnPostReview)
 
-
         inputTextName.setText(name)
         inputTextLat.setText(lat)
         inputTextLong.setText(long)
         inputTextInfo.setText(info)
 
+        /**------------------------------------------------------------------------------do need?*/
         var bitmap: Bitmap? = intent.getParcelableExtra("BitmapImage") as Bitmap?
         imageView.setImageBitmap(bitmap)
 
@@ -85,6 +90,9 @@ class ManagePointOfInterestActivity  : AppCompatActivity() {
 
     }
 
+    /**
+     * Method to delete data from database
+     */
     private fun deleteData(id: String) {
         db = FirebaseFirestore.getInstance()
         db.collection("points_of_interests")
@@ -96,6 +104,9 @@ class ManagePointOfInterestActivity  : AppCompatActivity() {
             }
     }
 
+    /**
+     * Method to update data in database
+     */
     private fun updateData(id: String, name: String, lat: String, long: String, info: String) {
         db = FirebaseFirestore.getInstance()
         db.collection("points_of_interests").document(id).update("name", name)
@@ -106,12 +117,17 @@ class ManagePointOfInterestActivity  : AppCompatActivity() {
         displayMessage(updateButton, "Updated successfully")
     }
 
+    /**
+     * Method to display snack bar
+     */
     private fun displayMessage(view: View, msgTxt: String) {
         val sb = Snackbar.make(view, msgTxt, Snackbar.LENGTH_SHORT)
         sb.show()
     }
 
-
+    /**
+     * Method fo back button press
+     */
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true

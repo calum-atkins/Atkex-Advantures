@@ -20,19 +20,25 @@ import java.util.*
 import kotlin.collections.HashMap
 import com.bumptech.glide.Glide
 
+/**
+ * This class is an activity to supply the addition of a new points of interest
+ */
 class AddPOIActivity : AppCompatActivity() {
 
+    //Initialise variables
     lateinit var nameText : EditText
     lateinit var infoText : EditText
     lateinit var latitudeText : EditText
     lateinit var longitudeText : EditText
     lateinit var addBtn : Button
     lateinit var selectImageBtn : Button
-
     lateinit var binding : ActivityAddPoiactivityBinding
     lateinit var imageURI : Uri
     lateinit var imageView: ImageView
 
+    /**
+     * Method on activity start
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddPoiactivityBinding.inflate(layoutInflater)
@@ -46,8 +52,7 @@ class AddPOIActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-
-
+        //Assign palette to variables
         nameText = findViewById(R.id.inputPOIName)
         infoText = findViewById(R.id.inputPOIInfo)
         longitudeText = findViewById(R.id.inputPOILong)
@@ -56,11 +61,12 @@ class AddPOIActivity : AppCompatActivity() {
         selectImageBtn = findViewById(R.id.btnSelectImage)
         imageView = findViewById(R.id.imgView)
 
+        //On click listener for select image button
         selectImageBtn.setOnClickListener {
             selectImage()
         }
 
-
+        //On click listener for add button
         addBtn.setOnClickListener {
             val name = nameText.text.toString()
             val info = infoText.text.toString()
@@ -68,21 +74,20 @@ class AddPOIActivity : AppCompatActivity() {
             val long = longitudeText.text.toString()
 
             uploadImage(name, info, lat, long)
-
         }
     }
 
+    /**
+     * Method used to upload an image the the point of interest
+     */
     private fun uploadImage(name: String, info: String, lat: String, long: String) {
-//        val progressDialog = ProgressDialog(this)
-//        progressDialog.setMessage("Uploading...")
-//        progressDialog.setCancelable(false)
-//        progressDialog.show()
-
+        //Format the image file
         val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
         val now = Date()
         val fileName = formatter.format(now)
         val storageReference = FirebaseStorage.getInstance().getReference("images/$fileName")
 
+        //Store the image
         storageReference.putFile(imageURI).
                 addOnSuccessListener {
                     binding.imgView.setImageURI(null)
@@ -93,6 +98,9 @@ class AddPOIActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Method used when the select image is pressed
+     */
     private fun selectImage() {
         val intent = Intent()
         intent.type = "image/*"
@@ -101,6 +109,9 @@ class AddPOIActivity : AppCompatActivity() {
         startActivityForResult(intent, 100)
     }
 
+    /**
+     * Display select image
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -110,6 +121,9 @@ class AddPOIActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Save the data to the FireStore
+     */
     fun saveFireStore(name: String, info: String, lat: String, long: String, imgName: String) {
         val db = FirebaseFirestore.getInstance()
         val pointOfInterest: MutableMap<String, Any> = HashMap()
@@ -119,7 +133,7 @@ class AddPOIActivity : AppCompatActivity() {
         pointOfInterest["long"] = long
         pointOfInterest["img"] = imgName
 
-
+        //Add POI to the database
         db.collection("points_of_interests")
             .add(pointOfInterest)
             .addOnSuccessListener {
@@ -132,16 +146,25 @@ class AddPOIActivity : AppCompatActivity() {
             }
     }
 
-    private fun displayMessage(view: View, msgTxt : String) {
-        val sb = Snackbar.make(view, msgTxt, Snackbar.LENGTH_SHORT)
-        sb.show()
-    }
-
+    /**
+     * Method to go to previous activity
+     */
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
     }
 
+    /**
+     * Method to display snack bar
+     */
+    private fun displayMessage(view: View, msgTxt : String) {
+        val sb = Snackbar.make(view, msgTxt, Snackbar.LENGTH_SHORT)
+        sb.show()
+    }
+
+    /**
+     * Method to close on screen keyboard
+     */
     private fun closeKeyBoard() {
         val view = this.currentFocus
         if (view != null) {

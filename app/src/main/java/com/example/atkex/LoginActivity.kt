@@ -14,6 +14,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
+/**
+ * Activity screen for login system
+ */
 class LoginActivity : AppCompatActivity() {
 
     //Auth variables
@@ -21,14 +24,17 @@ class LoginActivity : AppCompatActivity() {
     private var currentUser = mAuth.currentUser
     lateinit var cEmail : String
 
+    //Initialise variables
     private lateinit var db : FirebaseFirestore
-
     lateinit var emailText : EditText
     lateinit var passwordText : EditText
     lateinit var usernameText : EditText
     lateinit var registerBtn : Button
     lateinit var loginBtn : Button
 
+    /**
+     * Method called on start
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -38,21 +44,22 @@ class LoginActivity : AppCompatActivity() {
         usernameText = findViewById(R.id.nameInput)
         loginBtn = findViewById(R.id.btn_login)
         registerBtn = findViewById(R.id.btn_register)
-
-//        if (mAuth.currentUser != null) {
-//            val newIntent = Intent(this, MainActivity::class.java)
-//            startActivity(newIntent)
-//        }
     }
 
+    /**
+     * Method to update on startup
+     */
     override fun onStart() {
         super.onStart()
         update()
     }
 
+    /**
+     * Method for login button click --------------------------------
+     */
     fun loginClick(view : View) {
         db = FirebaseFirestore.getInstance()
-        if (loginBtn.text.toString() == "Map") {
+        if (loginBtn.text.toString() == "Map") { //(mAuth != null
             val newIntent = Intent(this, MainActivity::class.java)
             Log.d("TAG", cEmail)
             db.collection("users")
@@ -63,7 +70,6 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(newIntent)
                     }
                 }
-
         } else if (emailText.text.toString().isEmpty() || passwordText.text.toString().isEmpty()) {
             closeKeyBoard()
             displayMessage(loginBtn, getString(R.string.login_fail))
@@ -88,11 +94,17 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Method for logout button click
+     */
     fun logoutClick(view: View) {
         mAuth.signOut()
         update()
     }
 
+    /**
+     * Method for register button click
+     */
     fun registerClick(view : View) {
         if (mAuth.currentUser != null) {
             displayMessage(view, getString(R.string.register_while_logged_in))
@@ -121,6 +133,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Add the data to the firestore database
+     */
     fun saveFireStore(name: String, email: String) {
         val db = FirebaseFirestore.getInstance()
         val user: MutableMap<String, Any> = HashMap()
@@ -134,11 +149,17 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Method to display snack bar
+     */
     private fun displayMessage(view: View, msgTxt : String) {
         val sb = Snackbar.make(view, msgTxt, Snackbar.LENGTH_SHORT)
         sb.show()
     }
 
+    /**
+     * Method to update if there is a current user
+     */
     fun update() {
         val currentUser = mAuth.currentUser
 
@@ -155,6 +176,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Method to close on screen keyboard
+     */
     private fun closeKeyBoard() {
         val view = this.currentFocus
         if (view != null) {

@@ -11,9 +11,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 
-
+/**
+ * Adapter class for the leaderboards
+ */
 class LeaderboardsAdapter (private val context: Context, private val imageModelArrayList: MutableList<LeaderboardsModel>) : RecyclerView.Adapter<LeaderboardsAdapter.ViewHolder>() {
-    /*
+    /**
      * Inflate our views using the layout defined in row_layout.xml
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,7 +25,7 @@ class LeaderboardsAdapter (private val context: Context, private val imageModelA
         return ViewHolder(v)
     }
 
-    /*
+    /**
      * Bind the data to the child views of the ViewHolder
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -33,14 +35,14 @@ class LeaderboardsAdapter (private val context: Context, private val imageModelA
         holder.txtPoints.text = "Points: " + info.getPoints().toString()
     }
 
-    /*
+    /**
      * Number of models in the array
      */
     override fun getItemCount(): Int {
         return imageModelArrayList.size
     }
 
-    /*
+    /**
      * The parent class that handles layout inflation and child view use
      */
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener
@@ -53,6 +55,9 @@ class LeaderboardsAdapter (private val context: Context, private val imageModelA
             itemView.setOnClickListener(this)
         }
 
+        /**
+         * On click method for row
+         */
         override fun onClick(v: View) {
             val mess =
                 txtName.text.toString()
